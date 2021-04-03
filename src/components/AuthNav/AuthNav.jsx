@@ -1,7 +1,6 @@
 import React from 'react';
 import MyNavLink from '../MyNavLink';
 import styles from './AuthNav.module.css';
-
 import MaterialButton from '@material-ui/core/Button';
 import { styled } from '@material-ui/core/styles';
 

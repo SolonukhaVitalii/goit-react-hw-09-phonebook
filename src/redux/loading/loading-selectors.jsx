@@ -1,5 +1,3 @@
 const getIsLoading = state => state.loading;
-
-const GetIsLoading = { getIsLoading };
-
-export default GetIsLoading;
+const Loading = { getIsLoading };
+export default Loading;

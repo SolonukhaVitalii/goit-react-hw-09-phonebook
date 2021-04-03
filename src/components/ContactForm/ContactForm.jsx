@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+/*import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styles from './ContactForm.module.css';
 import { toast } from 'react-toastify';
@@ -108,4 +108,95 @@ ContactForm.propTypes = {
   items: PropTypes.array.isRequired,
 };
 
-export default ContactForm;
+export default ContactForm;*/
+
+
+import React, { useState } from 'react';
+import styles from './ContactForm.module.css';
+import { toast } from 'react-toastify';
+import MaterialButton from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import { styled } from '@material-ui/core/styles';
+
+export default function ContactForm() {
+  
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+
+  const handleChangeName = e => {
+    setName(e.target.value);
+  };
+  const handleChangeNumber = e => {
+    setNumber(e.target.value);
+  };
+
+  const notifyWarn = text => toast.warn(text);
+  const notifySuccess = text => toast.success(text);
+
+  const isValidContact = newContact => {
+    const name = newContact.name.toLowerCase();
+    const { number } = newContact;
+    const { items } = this.props;
+
+    if (name === '' || number === '') {
+      notifyWarn(`Please enter name and number`);
+      return true;
+    }
+
+    if (items.find(contact => contact.name.toLowerCase() === name)) {
+      notifyWarn(`${newContact.name} is already in contacts.`);
+      return true;
+    }
+  };
+
+  const reset = useState(setName(''), setNumber(''));
+
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    const newContact = {};
+    if (!isValidContact(newContact)) {
+      const { addContact } = this.props;
+      addContact(newContact);
+      notifySuccess('Added successfully');
+      reset();
+    }
+  };
+
+  const MyButton = styled(MaterialButton)({
+      width: 'fit-content',
+      backgroundColor: 'olive',
+      color: 'rgba(0, 0, 0, 0.87)',
+      boxShadow: '2px 2px 3px 0px rgba(0, 0, 0, 0.25)',
+  });
+  
+  return (
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <TextField
+          className={styles.input}
+          size="small"
+          label="Name"
+          variant="outlined"
+          type="text"
+          name="name"
+          value={name}
+          onChange={handleChangeName}
+          autoComplete="off"
+        />
+
+        <TextField
+          size="small"
+          label="Number"
+          variant="outlined"
+          className={styles.input}
+          type="tel"
+          name="number"
+          value={number}
+          onChange={handleChangeNumber}
+          autoComplete="off"
+        />
+
+        <MyButton type="submit">Add contact</MyButton>
+      </form>
+    );
+  }

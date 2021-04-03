@@ -1,4 +1,3 @@
-  
 import { connect } from 'react-redux';
 import { contactsActions, contactsSelectors } from '../../redux/contacts';
 import Filter from './Filter';

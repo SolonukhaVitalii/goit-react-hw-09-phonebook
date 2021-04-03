@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+/*import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ContactForm from '../../components/ContactForm';
 import ContactList from '../../components/ContactList';
@@ -55,4 +55,45 @@ ContactsView.propTypes = {
   fetchContacts: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactsView);
+export default connect(mapStateToProps, mapDispatchToProps)(ContactsView);*/
+
+import React, { useEffect } from 'react';
+import ContactForm from '../../components/ContactForm';
+import ContactList from '../../components/ContactList';
+import Filter from '../../components/Filter';
+import { ToastContainer, Zoom } from 'react-toastify';
+import { useSelector, useDispatch } from 'react-redux';
+import { contactsOperations, contactsSelectors } from '../../redux/contacts';
+import styles from './ContactsView.module.css';
+import 'react-toastify/dist/ReactToastify.css';
+
+export default function ContactsView() {
+  const dispatch = useDispatch();
+  const items = useSelector(contactsSelectors.getItems);
+  useEffect(() => {
+    dispatch(contactsOperations.fetchContacts());
+  }, [dispatch]);
+
+  return (
+      <>
+        <h1 className={styles.title}>Phonebook</h1>
+        <ContactForm />
+        <h2 className={styles.title}>Contacts</h2>
+        <section className={styles.contactsSection}>
+          {items.length > 1 && <Filter />}
+          {items.length > 0 ? (
+            <ContactList />
+          ) : (
+            <p>The contact list is empty. Please add a new contact.</p>
+          )}
+          <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            newestOnTop
+            limit={3}
+            transition={Zoom}
+          />
+        </section>
+      </>
+    );
+}

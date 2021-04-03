@@ -91,7 +91,6 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { authOperations } from '../../redux/auth';
 import styles from './LoginView.module.css';
-
 import MaterialButton from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { styled } from '@material-ui/core/styles';
@@ -109,10 +108,19 @@ export default function LoginView() {
     setPassword(evt.target.value);
   };
 
-  const handleSubmit = evt => {
-    evt.preventDefault();
-    dispatch(authOperations.loginUser({ email, password }));
+  /*const isNotValid = ({ email, password }) => {
+    if (email === '' || password === '') {
+      return true;
+    }
+  };*/
 
+  const handleSubmit = e => {
+    e.preventDefault();
+    /*if (isNotValid()) {
+      notification('Please fill out all required fields');
+      return;
+    }*/
+    dispatch(authOperations.login({ email, password }));
     setEmail('');
     setPassword('');
   };
