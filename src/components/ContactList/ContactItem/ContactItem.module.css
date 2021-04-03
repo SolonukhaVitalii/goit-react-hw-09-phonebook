@@ -1,0 +1,15 @@
+.info {
+  max-width: 50%;
+}
+
+@media screen and (max-width: 767px) {
+  .info {
+    overflow: scroll;
+  }
+}
+
+@media screen and (min-width: 425px) {
+  .info {
+    max-width: 65%;
+  }
+}

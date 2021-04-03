@@ -1,0 +1,16 @@
+.form {
+  width: 100%;
+  max-width: 350px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  background-color: #8080004a;
+}
+
+.input {
+  display: block;
+  margin-bottom: 15px;
+  width: fit-content;
+  border-radius: 4px;
+  background-color: #fffef1;
+}

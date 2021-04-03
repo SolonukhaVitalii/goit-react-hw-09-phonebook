@@ -1,0 +1,12 @@
+.formTitle {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.input {
+  display: block;
+  margin-bottom: 15px;
+  width: fit-content;
+  border-radius: 4px;
+  background-color: #fffef1;
+}
