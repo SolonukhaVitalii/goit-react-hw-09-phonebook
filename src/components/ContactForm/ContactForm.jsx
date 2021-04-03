@@ -111,7 +111,9 @@ ContactForm.propTypes = {
 export default ContactForm;*/
 
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { contactsOperations, contactsSelectors } from '../../redux/contacts';
 import styles from './ContactForm.module.css';
 import { toast } from 'react-toastify';
 import MaterialButton from '@material-ui/core/Button';
@@ -119,7 +121,7 @@ import TextField from '@material-ui/core/TextField';
 import { styled } from '@material-ui/core/styles';
 
 export default function ContactForm() {
-  
+  const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -130,13 +132,18 @@ export default function ContactForm() {
     setNumber(e.target.value);
   };
 
+  const items = useSelector(contactsSelectors.getItems);
+  
+  useEffect(() => {
+    dispatch(contactsOperations.addContact());
+  }, [dispatch]);
+
   const notifyWarn = text => toast.warn(text);
   const notifySuccess = text => toast.success(text);
 
   const isValidContact = newContact => {
     const name = newContact.name.toLowerCase();
     const { number } = newContact;
-    const { items } = this.props;
 
     if (name === '' || number === '') {
       notifyWarn(`Please enter name and number`);
@@ -156,8 +163,6 @@ export default function ContactForm() {
 
     const newContact = {};
     if (!isValidContact(newContact)) {
-      const { addContact } = this.props;
-      addContact(newContact);
       notifySuccess('Added successfully');
       reset();
     }
