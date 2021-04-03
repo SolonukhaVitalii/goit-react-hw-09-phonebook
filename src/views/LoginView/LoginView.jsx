@@ -88,17 +88,41 @@ export default connect(null, mapDispatchToProps)(LoginView);*/
 
 
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { authOperations } from '../../redux/auth';
 import styles from './LoginView.module.css';
 
 import MaterialButton from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { styled } from '@material-ui/core/styles';
-import notification from '../../components/notification';
+//import notification from '../../components/notification';
 
 export default function LoginView() {
-  const [state, setState] = useState({ email: '', password: '' });
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const updateEmail = evt => {
+    setEmail(evt.target.value);
+  };
+  const updatePassword = evt => {
+    setPassword(evt.target.value);
+  };
+
+  const handleSubmit = evt => {
+    evt.preventDefault();
+    dispatch(authOperations.loginUser({ email, password }));
+
+    setEmail('');
+    setPassword('');
+  };
+
+  const MyButton = styled(MaterialButton)({
+      width: 'fit-content',
+      backgroundColor: 'palegoldenrod',
+      color: 'olive',
+    });
+
   return (
       <div>
         <h1 className={styles.header}>Сторінка для входу</h1>
@@ -113,7 +137,7 @@ export default function LoginView() {
             type="email"
             name="email"
             value={email}
-            onChange={handleChange}
+            onChange={updateEmail}
             label="Пошта"
           />
 
@@ -123,7 +147,7 @@ export default function LoginView() {
             type="password"
             name="password"
             value={password}
-            onChange={handleChange}
+            onChange={updatePassword}
             label="Пароль"
           />
 
