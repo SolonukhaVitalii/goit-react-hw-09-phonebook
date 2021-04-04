@@ -111,7 +111,7 @@ ContactForm.propTypes = {
 export default ContactForm;*/
 
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { contactsOperations, contactsSelectors } from '../../redux/contacts';
 import styles from './ContactForm.module.css';
@@ -120,30 +120,26 @@ import MaterialButton from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { styled } from '@material-ui/core/styles';
 
-export default function ContactForm() {
+export default function ContactForm(params) {
   const dispatch = useDispatch();
+  const items = useSelector(contactsSelectors.getItems);
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-
-  const handleChangeName = e => {
-    setName(e.target.value);
-  };
-  const handleChangeNumber = e => {
-    setNumber(e.target.value);
-  };
-
-  const items = useSelector(contactsSelectors.getItems);
-  
-  useEffect(() => {
-    dispatch(contactsOperations.addContact());
-  }, [dispatch]);
 
   const notifyWarn = text => toast.warn(text);
   const notifySuccess = text => toast.success(text);
 
+  const handleChange = e => {
+    const { name, value } = e.currentTarget;
+    name === 'number'
+      ? setName({ [name]: value.replace(/[^\d-]/g, '') })
+      : setName({ [name]: value });
+  };
+
   const isValidContact = newContact => {
     const name = newContact.name.toLowerCase();
     const { number } = newContact;
+    items();
 
     if (name === '' || number === '') {
       notifyWarn(`Please enter name and number`);
@@ -160,9 +156,9 @@ export default function ContactForm() {
 
   const handleSubmit = e => {
     e.preventDefault();
-
-    const newContact = {};
+    const newContact = {name, number};
     if (!isValidContact(newContact)) {
+      dispatch(contactsOperations.addContact(name, number));
       notifySuccess('Added successfully');
       reset();
     }
@@ -185,7 +181,7 @@ export default function ContactForm() {
           type="text"
           name="name"
           value={name}
-          onChange={handleChangeName}
+          onChange={handleChange}
           autoComplete="off"
         />
 
@@ -197,7 +193,7 @@ export default function ContactForm() {
           type="tel"
           name="number"
           value={number}
-          onChange={handleChangeNumber}
+          onChange={handleChange}
           autoComplete="off"
         />
 
