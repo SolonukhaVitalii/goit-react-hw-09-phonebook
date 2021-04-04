@@ -120,7 +120,7 @@ import MaterialButton from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { styled } from '@material-ui/core/styles';
 
-export default function ContactForm(params) {
+export default function ContactForm() {
   const dispatch = useDispatch();
   const items = useSelector(contactsSelectors.getItems);
   const [name, setName] = useState('');
@@ -152,15 +152,14 @@ export default function ContactForm(params) {
     }
   };
 
-  const reset = useState(setName(''), setNumber(''));
-
   const handleSubmit = e => {
     e.preventDefault();
     const newContact = {name, number};
     if (!isValidContact(newContact)) {
       dispatch(contactsOperations.addContact(name, number));
       notifySuccess('Added successfully');
-      reset();
+      setName('');
+      setNumber('');
     }
   };
 
