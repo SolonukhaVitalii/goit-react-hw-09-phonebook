@@ -156,7 +156,7 @@ export default function ContactForm() {
     e.preventDefault();
     const newContact = {name, number};
     if (!isValidContact(newContact)) {
-      dispatch(contactsOperations.addContact(name, number));
+      dispatch(contactsOperations.addContact({ name, number }));
       notifySuccess('Added successfully');
       setName('');
       setNumber('');

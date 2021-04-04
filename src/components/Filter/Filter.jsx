@@ -43,7 +43,6 @@ import TextField from '@material-ui/core/TextField';
 export default function Filter() {
   const dispatch = useDispatch();
   const filter = useSelector(contactsSelectors.getFilter);
-  const onChange = dispatch(contactsActions.changeFilter());
   useEffect(() => {
     dispatch(contactsActions.resetFilter());
   }, [dispatch]);
@@ -53,7 +52,7 @@ export default function Filter() {
         className={styles.input}
         type="text"
         value={filter}
-        onChange={onChange}
+        onChange={e => dispatch(contactsActions.changeFilter(e.target.value))}
         label="Find contacts by name"
         size="small"
         variant="outlined"
