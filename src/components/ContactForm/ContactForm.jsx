@@ -129,17 +129,23 @@ export default function ContactForm() {
   const notifyWarn = text => toast.warn(text);
   const notifySuccess = text => toast.success(text);
 
-  const handleChange = e => {
+  /*const handleChange = e => {
     const { name, value } = e.currentTarget;
     name === 'number'
       ? setName({ [name]: value.replace(/[^\d-]/g, '') })
       : setName({ [name]: value });
+  };*/
+  const handleChangeName = e => {
+    setName(e.target.value);
+  };
+
+  const handleChangeNumber = e => {
+    setNumber(e.target.value);
   };
 
   const isValidContact = newContact => {
     const name = newContact.name.toLowerCase();
     const { number } = newContact;
-    items();
 
     if (name === '' || number === '') {
       notifyWarn(`Please enter name and number`);
@@ -180,7 +186,7 @@ export default function ContactForm() {
           type="text"
           name="name"
           value={name}
-          onChange={handleChange}
+          onChange={handleChangeName}
           autoComplete="off"
         />
 
@@ -192,7 +198,7 @@ export default function ContactForm() {
           type="tel"
           name="number"
           value={number}
-          onChange={handleChange}
+          onChange={handleChangeNumber}
           autoComplete="off"
         />
 
